@@ -1,0 +1,12 @@
+{
+  "liveServer.settings.ignoreFiles": [
+    "**/.vscode/**",
+    "**/.venv/**",
+    "**/__pycache__/**",
+    "**/logs/**",
+    "**/*.log",
+    "**/*.pyc",
+    "**/.env"
+  ],
+  "liveServer.settings.wait": 1500
+}

@@ -1,0 +1,19 @@
+{
+  "webpage": {
+    "enabled": true,
+    "maintenance_message": "Website is currently in maintenance mode."
+  },
+  "store": {
+    "enabled": true,
+    "allow_checkout": true,
+    "allow_custom_requests": true,
+    "maintenance_message": "Store access is temporarily disabled by admin."
+  },
+  "ai": {
+    "enabled": true,
+    "allow_fastpath": true,
+    "maintenance_message": "AI assistant is temporarily disabled by admin."
+  },
+  "updated_at": "2026-02-28T18:09:12.118701+00:00",
+  "updated_by": "4459d783-c327-4bd2-882b-800a8825899f"
+}

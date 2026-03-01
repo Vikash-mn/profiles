@@ -1,0 +1,1789 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIKASH // HARDWARE_WAREHOUSE</title>
+    <meta name="description" content="Secure Hardware Marketplace - Restricted Access">
+    <meta name="theme-color" content="#00ff9d">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com https://cdn-icons-png.flaticon.com https://cdn.jsdelivr.net;
+        script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdnjs.cloudflare.com https://unpkg.com https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://cdn.jsdelivr.net;
+        font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+        img-src 'self' data: https:;
+        connect-src 'self' https://api.vikash.dev http://localhost:8016 http://localhost:8001 http://localhost:8000 http://127.0.0.1:8016 ws://localhost:* ws://127.0.0.1:*;
+    ">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>ðŸ›’</text></svg>">
+    
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700;800&family=Syncopate:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/store.css">
+</head>
+<body>
+    <!-- Authentication Screen -->
+    <div id="auth-container" class="auth-container">
+        <div class="cyber-card" id="login-card">
+            <div class="cyber-header">
+                <span><i class="fas fa-shield-alt"></i> SECURE ACCESS PORTAL</span>
+                <span class="blink">_AUTH_REQUIRED</span>
+            </div>
+            
+            <div class="cyber-content">
+                <h2 style="font-family: var(--font-display); color: var(--primary); margin-bottom: 1rem;">WAREHOUSE ACCESS</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                    Level 4 clearance required. All transactions are encrypted and logged.
+                </p>
+                
+                <form id="login-form">
+                    <div class="input-group">
+                        <label><i class="fas fa-user-secret"></i> USERNAME / EMAIL</label>
+                        <input type="text" id="login-identifier" required autocomplete="username">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-key"></i> PASSWORD</label>
+                        <input type="password" id="login-password" required autocomplete="current-password">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <button type="submit" class="cyber-btn" id="login-btn">
+                        <i class="fas fa-terminal"></i> ACCESS SYSTEM
+                    </button>
+                    
+                    <button type="button" class="cyber-btn secondary" onclick="showRegister()">
+                        <i class="fas fa-user-plus"></i> CREATE ACCOUNT
+                    </button>
+                </form>
+            </div>
+            
+            <div class="cyber-footer">
+                ID: <span style="color:var(--primary)">WAREHOUSE_SYSTEM</span> // ENCRYPTION: AES-256
+            </div>
+        </div>
+        
+        <div class="cyber-card hidden" id="register-card">
+            <div class="cyber-header">
+                <span><i class="fas fa-user-plus"></i> NEW USER REGISTRATION</span>
+                <span class="blink">_INITIALIZING</span>
+            </div>
+            
+            <div class="cyber-content">
+                <h2 style="font-family: var(--font-display); color: var(--primary); margin-bottom: 1rem;">CREATE IDENTITY</h2>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                    Provide secure credentials. All data is encrypted end-to-end.
+                </p>
+                
+                <form id="register-form">
+                    <div class="input-group">
+                        <label><i class="fas fa-user"></i> FULL NAME</label>
+                        <input type="text" id="register-name" required autocomplete="name">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-envelope"></i> EMAIL ADDRESS</label>
+                        <input type="email" id="register-email" required autocomplete="email">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-user-secret"></i> USERNAME</label>
+                        <input type="text" id="register-username" required autocomplete="username">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-key"></i> PASSWORD</label>
+                        <input type="password" id="register-password" required minlength="8" autocomplete="new-password">
+                        <div class="focus-line"></div>
+                        <small style="color: #666; font-size: 0.7rem;">Minimum 8 characters</small>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-key"></i> CONFIRM PASSWORD</label>
+                        <input type="password" id="register-confirm" required autocomplete="new-password">
+                        <div class="focus-line"></div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-shield-alt"></i> ACCESS CODE (Optional)</label>
+                        <input type="text" id="register-access-code" placeholder="For restricted inventory access">
+                        <div class="focus-line"></div>
+                        <small style="color: #666; font-size: 0.7rem;">Leave blank if you don't have one</small>
+                    </div>
+                    
+                    <button type="submit" class="cyber-btn" id="register-btn">
+                        <i class="fas fa-user-check"></i> CREATE ACCOUNT
+                    </button>
+                    
+                    <button type="button" class="cyber-btn secondary" onclick="showLogin()">
+                        <i class="fas fa-arrow-left"></i> BACK TO LOGIN
+                    </button>
+                </form>
+            </div>
+            
+            <div class="cyber-footer">
+                <span style="color:var(--secondary)">All transactions monitored for security</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Store Interface (Hidden until authenticated) -->
+    <div id="store-interface">
+        <!-- Header -->
+        <header class="store-header">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <a href="index.html" style="font-family: var(--font-display); color: #fff; text-decoration: none; font-size: 1.2rem;">
+                    <i class="fas fa-arrow-left"></i> BACK_TO_ROOT
+                </a>
+                <div style="font-family: var(--font-display); color: var(--primary);">
+                    <i class="fas fa-warehouse"></i> HARDWARE_WAREHOUSE
+                </div>
+            </div>
+            
+            <nav class="store-nav">
+                <a class="store-nav-item active" onclick="showSection('products')">
+                    <i class="fas fa-microchip"></i> PRODUCTS
+                </a>
+                <a class="store-nav-item" onclick="showSection('cart')">
+                    <i class="fas fa-shopping-cart"></i> CART <span id="cart-count" style="color: var(--accent);">(0)</span>
+                </a>
+                <a class="store-nav-item" onclick="showSection('history')">
+                    <i class="fas fa-history"></i> PURCHASE HISTORY
+                </a>
+                <a class="store-nav-item" onclick="showSection('custom')">
+                    <i class="fas fa-hammer"></i> CUSTOM FORGE
+                </a>
+                <a class="store-nav-item hidden" id="admin-nav-item" onclick="openAdminPanel()">
+                    <i class="fas fa-user-shield"></i> ADMIN PANEL
+                </a>
+            </nav>
+            
+            <div class="user-info">
+                <span>Welcome, <span id="user-display-name" style="color: var(--primary);"></span></span>
+                <span class="user-balance">$<span id="user-balance">0.00</span></span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> LOGOUT
+                </button>
+            </div>
+        </header>
+        
+        <!-- Store Content -->
+        <div class="store-content">
+            <!-- Products Section -->
+            <div id="products-section">
+                <h1 class="section-title">
+                    <i class="fas fa-microchip"></i> ELECTRONIC COMPONENTS
+                </h1>
+                <p class="section-subtitle">
+                    Physical hardware components and modules ready to ship. All items include documentation and support.
+                </p>
+                
+                <!-- Category Filter -->
+                <div style="margin-bottom: 2rem; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="store-nav-item" onclick="filterProducts('all')" id="filter-all">ALL PRODUCTS</button>
+                    <button class="store-nav-item" onclick="filterProducts('components')" id="filter-components">COMPONENTS</button>
+                    <button class="store-nav-item" onclick="filterProducts('projects')" id="filter-projects">PROJECTS</button>
+                    <button class="store-nav-item" onclick="filterProducts('restricted')" id="filter-restricted">RESTRICTED</button>
+                </div>
+                
+                <!-- Product Grid -->
+                <div id="products-grid" class="store-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading secure inventory...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cart Section -->
+            <div id="cart-section" class="hidden">
+                <h1 class="section-title">
+                    <i class="fas fa-shopping-cart"></i> YOUR CART
+                </h1>
+                <p class="section-subtitle">
+                    Review items before checkout. All prices include shipping and handling.
+                </p>
+                
+                <div id="cart-container" class="cart-container">
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>YOUR CART IS EMPTY</h3>
+                        <p>Add some hardware to get started!</p>
+                    </div>
+                </div>
+                
+                <div id="cart-actions" class="hidden" style="margin-top: 2rem; text-align: right;">
+                    <button class="cyber-btn" onclick="checkout()" style="width: auto; padding: 15px 40px;">
+                        <i class="fas fa-lock"></i> SECURE CHECKOUT
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Purchase History Section -->
+            <div id="history-section" class="hidden">
+                <h1 class="section-title">
+                    <i class="fas fa-history"></i> PURCHASE HISTORY
+                </h1>
+                <p class="section-subtitle">
+                    All your previous orders and shipments.
+                </p>
+                
+                <div id="history-container" class="history-container">
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h3>NO PURCHASE HISTORY</h3>
+                        <p>Your completed orders will appear here.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="custom-section" class="hidden">
+                <h1 class="section-title">
+                    <i class="fas fa-hammer"></i> CUSTOM FABRICATION FORGE
+                </h1>
+                <p class="section-subtitle">
+                    Submit specifications for bespoke hardware, PCB design, or specialized security tools.
+                    Level 4 clearance may be required for kinetic or high-voltage projects.
+                </p>
+
+                <div class="cyber-card" style="max-width: 800px; margin: 0 auto;">
+                    <div class="cyber-header">
+                        <span><i class="fas fa-file-contract"></i> PROJECT REQUISITION FORM</span>
+                        <span class="blink">_SECURE_CHANNEL</span>
+                    </div>
+
+                    <div class="cyber-content">
+                        <form id="custom-request-form">
+                            <div class="input-group">
+                                <label><i class="fas fa-project-diagram"></i> PROJECT CODENAME</label>
+                                <input type="text" id="custom-title" required placeholder="e.g. PROJECT_OBSIDIAN">
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-layer-group"></i> CATEGORY</label>
+                                <select id="custom-category">
+                                    <option value="pcb_design">PCB Design & Layout</option>
+                                    <option value="firmware">Firmware Hardening</option>
+                                    <option value="penetration_tool">Physical Pen-Test Tool</option>
+                                    <option value="reverse_engineering">Hardware Reverse Engineering</option>
+                                    <option value="other">Classified / Other</option>
+                                </select>
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-file-alt"></i> TECHNICAL SPECIFICATIONS</label>
+                                <textarea id="custom-specs" rows="5" required placeholder="Describe dimensions, power requirements, target architecture, and operational constraints..."></textarea>
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div class="input-group">
+                                    <label><i class="fas fa-coins"></i> BUDGET ALLOCATION (USD)</label>
+                                    <input type="number" id="custom-budget" placeholder="5000">
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-calendar-alt"></i> TIMELINE (WEEKS)</label>
+                                    <input type="number" id="custom-timeline" placeholder="4">
+                                    <div class="focus-line"></div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-link"></i> REFERENCE FILES / LINKS (Encrypted URL)</label>
+                                <input type="text" id="custom-links" placeholder="https://...">
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <button type="submit" class="cyber-btn" id="custom-submit-btn">
+                                <i class="fas fa-satellite-dish"></i> TRANSMIT REQUEST
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="cyber-footer">
+                        Note: Custom fabrication requires 50% deposit upon approval.
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-section" class="hidden">
+                <h1 class="section-title">
+                    <i class="fas fa-user-shield"></i> ADMIN PRODUCT PANEL
+                </h1>
+                <p class="section-subtitle">
+                    Create, edit, or remove products. Changes apply immediately to the catalog and active carts.
+                </p>
+
+                <div class="cyber-card" style="margin-bottom: 20px;">
+                    <div class="cyber-header">
+                        <span><i class="fas fa-database"></i> PRODUCT INVENTORY</span>
+                        <span class="blink">_LIVE</span>
+                    </div>
+                    <div class="cyber-content" id="admin-products-table">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading products...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cyber-card">
+                    <div class="cyber-header">
+                        <span><i class="fas fa-edit"></i> ADD / EDIT PRODUCT</span>
+                        <span class="blink">_FORM</span>
+                    </div>
+                    <div class="cyber-content">
+                        <form id="admin-product-form">
+                            <input type="hidden" id="admin-product-id">
+                            <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                                <div class="input-group">
+                                    <label><i class="fas fa-tag"></i> NAME</label>
+                                    <input type="text" id="admin-name" required>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-layer-group"></i> CATEGORY</label>
+                                    <select id="admin-category">
+                                        <option value="components">Components</option>
+                                        <option value="projects">Projects</option>
+                                        <option value="restricted">Restricted</option>
+                                    </select>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-dollar-sign"></i> PRICE (USD)</label>
+                                    <input type="number" id="admin-price" step="0.01" required>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-boxes"></i> STOCK</label>
+                                    <input type="number" id="admin-stock" min="0" required>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-info-circle"></i> STATUS</label>
+                                    <select id="admin-status">
+                                        <option value="in_stock">In Stock</option>
+                                        <option value="limited">Limited</option>
+                                        <option value="fabricating">Fabricating</option>
+                                        <option value="preorder">Preorder</option>
+                                        <option value="restricted">Restricted</option>
+                                        <option value="out_of_stock">Out of Stock</option>
+                                    </select>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-percentage"></i> FABRICATION PROGRESS (%)</label>
+                                    <input type="number" id="admin-progress" min="0" max="100" value="100">
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label><i class="fas fa-lock"></i> REQUIRES CLEARANCE</label>
+                                    <select id="admin-clearance">
+                                        <option value="false">No</option>
+                                        <option value="true">Yes</option>
+                                    </select>
+                                    <div class="focus-line"></div>
+                                </div>
+                                <div class="input-group" style="grid-column: 1 / span 2;">
+                                    <label><i class="fas fa-link"></i> IMAGE URL</label>
+                                    <input type="text" id="admin-image">
+                                    <div class="focus-line"></div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-file-alt"></i> DESCRIPTION</label>
+                                <textarea id="admin-description" rows="2"></textarea>
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-list"></i> FEATURES (one per line)</label>
+                                <textarea id="admin-features" rows="3"></textarea>
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div class="input-group">
+                                <label><i class="fas fa-cogs"></i> SPECIFICATIONS (JSON)</label>
+                                <textarea id="admin-specs" rows="4" placeholder='{\"key\":\"value\"}'></textarea>
+                                <div class="focus-line"></div>
+                            </div>
+
+                            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                <button type="submit" class="cyber-btn" id="admin-save-btn">
+                                    <i class="fas fa-save"></i> SAVE PRODUCT
+                                </button>
+                                <button type="button" class="cyber-btn secondary" id="admin-reset-btn">
+                                    <i class="fas fa-undo"></i> RESET FORM
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product Details Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <button class="close-modal" onclick="closeModal('product-modal')">&times;</button>
+            <div id="product-modal-content">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <button class="close-modal" onclick="closeModal('checkout-modal')">&times;</button>
+            <h2 style="font-family: var(--font-display); color: var(--primary); margin-bottom: 1rem;">
+                <i class="fas fa-lock"></i> SECURE CHECKOUT
+            </h2>
+            
+            <div id="checkout-summary" style="margin-bottom: 2rem;">
+                <!-- Order summary loaded here -->
+            </div>
+            
+            <form id="checkout-form">
+                <div class="input-group">
+                    <label><i class="fas fa-map-marker-alt"></i> SHIPPING ADDRESS</label>
+                    <textarea id="shipping-address" rows="3" required></textarea>
+                    <div class="focus-line"></div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-phone"></i> CONTACT NUMBER</label>
+                    <input type="tel" id="contact-number" required>
+                    <div class="focus-line"></div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-credit-card"></i> PAYMENT METHOD</label>
+                    <select id="payment-method" required>
+                        <option value="">Select payment method</option>
+                        <option value="crypto">Cryptocurrency (BTC/ETH)</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="wire">Bank Transfer</option>
+                        <option value="invoice">Invoice (For businesses)</option>
+                    </select>
+                    <div class="focus-line"></div>
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-sticky-note"></i> SPECIAL INSTRUCTIONS</label>
+                    <textarea id="checkout-notes" rows="2" placeholder="Customization requests, shipping preferences, etc."></textarea>
+                    <div class="focus-line"></div>
+                </div>
+                
+                <button type="submit" class="cyber-btn" id="checkout-btn">
+                    <i class="fas fa-check-circle"></i> CONFIRM ORDER
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- JavaScript Implementation -->
+    <script>
+        // ============================================================================
+        // CONFIGURATION
+        // ============================================================================
+        const API_CONFIG = {
+            BASE_URL: 'http://localhost:8016',
+            ENDPOINTS: {
+                REGISTER: '/api/auth/register',
+                LOGIN: '/api/auth/login',
+                LOGOUT: '/api/auth/logout',
+                PROFILE: '/api/auth/profile',
+                PRODUCTS: '/api/store/products',
+                CART: '/api/store/cart',
+                ORDERS: '/api/store/orders',
+                CUSTOM_REQUEST: '/api/store/custom-request',
+                AI_CHAT: '/api/ai/chat',
+                ADMIN_PRODUCTS: '/api/admin/products',
+                ADMIN_OVERVIEW: '/api/admin/dashboard/stats'
+            }
+        };
+
+        const STORAGE_KEYS = {
+            TOKEN: 'vikash_access_token',
+            USER: 'vikash_user_data',
+            CART: 'vikash_cart_data'
+        };
+
+        // ============================================================================
+        // STATE MANAGEMENT
+        // ============================================================================
+        let currentUser = null;
+        let cart = [];
+        let products = [];
+        let adminProducts = [];
+
+        const isAdmin = () => currentUser && currentUser.clearance_level >= 5;
+
+        // ============================================================================
+        // API HELPER FUNCTIONS
+        // ============================================================================
+        async function apiRequest(endpoint, method = 'GET', data = null, requiresAuth = true) {
+            const url = `${API_CONFIG.BASE_URL}${endpoint}`;
+            const headers = {
+                'Content-Type': 'application/json',
+            };
+            
+            if (requiresAuth) {
+                const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                    headers['X-Token'] = token;
+                }
+            }
+            
+            const config = {
+                method,
+                headers,
+                credentials: 'include'
+            };
+            
+            if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                config.body = JSON.stringify(data);
+            }
+            
+            try {
+                const response = await fetch(url, config);
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    // Include detailed validation errors if available
+                    const errorMessage = error.detail || error.error || 'API request failed';
+                    if (error.errors && error.errors.length > 0) {
+                        throw new Error(errorMessage + ': ' + error.errors.join(', '));
+                    }
+                    throw new Error(errorMessage);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Request Error:', error);
+                showMessage(error.message, 'error');
+                throw error;
+            }
+        }
+
+        // ============================================================================
+        // AUTHENTICATION FUNCTIONS
+        // ============================================================================
+        async function login(identifier, password) {
+            try {
+                showMessage('Authenticating...', 'info');
+                
+                const response = await apiRequest(
+                    API_CONFIG.ENDPOINTS.LOGIN,
+                    'POST',
+                    { identifier, password },
+                    false
+                );
+                
+                const authToken = response.access_token || response.token;
+
+                if (response.success && authToken) {
+                    localStorage.setItem(STORAGE_KEYS.TOKEN, authToken);
+                    localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(response.user));
+                    
+                    currentUser = response.user;
+                    
+                    showMessage('Access granted!', 'success');
+                    
+                    // Switch to store interface
+                    setTimeout(() => {
+                        document.getElementById('auth-container').style.display = 'none';
+                        document.getElementById('store-interface').style.display = 'block';
+                        updateUserDisplay();
+                        loadProducts();
+                        loadCart();
+                        showSection('products');
+                    }, 1000);
+                    
+                    return true;
+                }
+
+                if (response.success) {
+                    throw new Error('Login succeeded but no access token was returned');
+                }
+
+                throw new Error(response.message || 'Invalid login response');
+            } catch (error) {
+                showMessage('Login failed: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        async function register(userData) {
+            try {
+                showMessage('Creating secure identity...', 'info');
+                
+                const response = await apiRequest(
+                    API_CONFIG.ENDPOINTS.REGISTER,
+                    'POST',
+                    userData,
+                    false
+                );
+                
+                if (response.success) {
+                    showMessage('Account created successfully!', 'success');
+                    
+                    // Auto login
+                    setTimeout(() => {
+                        document.getElementById('login-identifier').value = userData.email;
+                        document.getElementById('login-password').value = userData.password;
+                        showLogin();
+                    }, 1500);
+                    
+                    return true;
+                }
+            } catch (error) {
+                showMessage('Registration failed: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        async function logout() {
+            try {
+                await apiRequest(API_CONFIG.ENDPOINTS.LOGOUT, 'POST');
+            } catch (error) {
+                // Continue with logout even if API call fails
+            }
+            
+            // Clear local storage
+            localStorage.removeItem(STORAGE_KEYS.TOKEN);
+            localStorage.removeItem(STORAGE_KEYS.USER);
+            localStorage.removeItem(STORAGE_KEYS.CART);
+            
+            currentUser = null;
+            cart = [];
+            
+            // Switch to auth interface
+            document.getElementById('store-interface').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'flex';
+            showLogin();
+            
+            showMessage('Logged out successfully', 'info');
+        }
+
+        function checkAuth() {
+            const token = localStorage.getItem(STORAGE_KEYS.TOKEN);
+            const userData = localStorage.getItem(STORAGE_KEYS.USER);
+            
+            if (token && userData) {
+                try {
+                    currentUser = JSON.parse(userData);
+                    
+                    document.getElementById('auth-container').style.display = 'none';
+                    document.getElementById('store-interface').style.display = 'block';
+                    updateUserDisplay();
+                    loadProducts();
+                    loadCart();
+                    if (isAdmin()) {
+                        loadAdminProducts();
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Auth check error:', error);
+                    logout();
+                }
+            }
+            
+            return false;
+        }
+
+        // ============================================================================
+        // PRODUCT FUNCTIONS
+        // ============================================================================
+        async function loadProducts(filter = 'all') {
+            try {
+                const response = await apiRequest(
+                    `${API_CONFIG.ENDPOINTS.PRODUCTS}?category=${filter}`
+                );
+                
+                if (response.success) {
+                    products = response.products;
+                    renderProducts(filter);
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // ============================================================================
+        // ADMIN FUNCTIONS
+        // ============================================================================
+        async function loadAdminProducts() {
+            if (!isAdmin()) return;
+            try {
+                const response = await apiRequest(API_CONFIG.ENDPOINTS.ADMIN_PRODUCTS);
+                if (response.success) {
+                    adminProducts = response.products || [];
+                    renderAdminProducts();
+                }
+            } catch (error) {
+                console.error('Error loading admin products:', error);
+            }
+        }
+
+        function renderAdminProducts() {
+            const container = document.getElementById('admin-products-table');
+            if (!container) return;
+
+            if (!adminProducts || adminProducts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <h3>NO PRODUCTS</h3>
+                        <p>Add a product to get started.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const rows = adminProducts.map(p => `
+                <tr>
+                    <td><code>${p.id}</code></td>
+                    <td>${p.name}</td>
+                    <td>${p.category}</td>
+                    <td>$${parseFloat(p.price).toFixed(2)}</td>
+                    <td>${p.stock}</td>
+                    <td>${p.status}</td>
+                    <td>${p.requires_clearance ? 'Yes' : 'No'}</td>
+                    <td>${p.fabrication_progress || 0}%</td>
+                    <td>
+                        <button class="cyber-btn secondary" onclick="editProduct('${p.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="cyber-btn" style="background: #ff0055;" onclick="deleteProduct('${p.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            container.innerHTML = `
+                <div style="overflow-x:auto;">
+                    <table class="cyber-table" style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Clearance</th>
+                                <th>Progress</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function resetAdminForm() {
+            document.getElementById('admin-product-id').value = '';
+            document.getElementById('admin-name').value = '';
+            document.getElementById('admin-category').value = 'components';
+            document.getElementById('admin-price').value = '';
+            document.getElementById('admin-stock').value = '';
+            document.getElementById('admin-status').value = 'in_stock';
+            document.getElementById('admin-progress').value = 100;
+            document.getElementById('admin-clearance').value = 'false';
+            document.getElementById('admin-image').value = '';
+            document.getElementById('admin-description').value = '';
+            document.getElementById('admin-features').value = '';
+            document.getElementById('admin-specs').value = '';
+            document.getElementById('admin-save-btn').innerHTML = '<i class="fas fa-save"></i> SAVE PRODUCT';
+        }
+
+        function editProduct(id) {
+            const p = adminProducts.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('admin-product-id').value = p.id;
+            document.getElementById('admin-name').value = p.name;
+            document.getElementById('admin-category').value = p.category;
+            document.getElementById('admin-price').value = p.price;
+            document.getElementById('admin-stock').value = p.stock;
+            document.getElementById('admin-status').value = p.status;
+            document.getElementById('admin-progress').value = p.fabrication_progress || 0;
+            document.getElementById('admin-clearance').value = p.requires_clearance ? 'true' : 'false';
+            document.getElementById('admin-image').value = p.image_url || '';
+            document.getElementById('admin-description').value = p.description || '';
+            document.getElementById('admin-features').value = Array.isArray(p.features) ? p.features.join('\\n') : '';
+            document.getElementById('admin-specs').value = p.specifications ? JSON.stringify(p.specifications, null, 2) : '';
+            document.getElementById('admin-save-btn').innerHTML = '<i class=\"fas fa-save\"></i> UPDATE PRODUCT';
+            showSection('admin');
+        }
+
+        async function deleteProduct(id) {
+            if (!confirm(`Delete product ${id}?`)) return;
+            try {
+                const encodedId = encodeURIComponent(id);
+                const response = await apiRequest(`${API_CONFIG.ENDPOINTS.ADMIN_PRODUCTS}/${encodedId}`, 'DELETE');
+                if (response.success) {
+                    showMessage(response.message, 'success');
+                    await loadAdminProducts();
+                    await loadProducts();
+                }
+            } catch (error) {
+                showMessage('Delete failed: ' + error.message, 'error');
+            }
+        }
+
+        function renderProducts(filter = 'all') {
+            const grid = document.getElementById('products-grid');
+            if (!grid) return;
+            
+            // Update active filter button
+            document.querySelectorAll('[onclick^="filterProducts"]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`filter-${filter}`).classList.add('active');
+            
+            if (!products || products.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <i class="fas fa-box-open"></i>
+                        <h3>NO PRODUCTS FOUND</h3>
+                        <p>No items match the selected filter.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Filter products
+            let filteredProducts = products;
+            if (filter !== 'all') {
+                filteredProducts = products.filter(p => {
+                    if (filter === 'restricted') {
+                        return p.requires_clearance;
+                    }
+                    return p.category === filter;
+                });
+            }
+            
+            grid.innerHTML = filteredProducts.map(product => {
+                const inCart = cart.some(item => item.product_id === product.id);
+                const canPurchase = !product.requires_clearance || 
+                    (currentUser && currentUser.clearance_level >= 4);
+                
+                // Parse features and specifications if they're JSON strings
+                let features = product.features;
+                let specifications = product.specifications;
+                
+                if (typeof product.features === 'string') {
+                    try {
+                        features = JSON.parse(product.features);
+                    } catch (e) {
+                        features = [];
+                    }
+                }
+                
+                if (typeof product.specifications === 'string') {
+                    try {
+                        specifications = JSON.parse(product.specifications);
+                    } catch (e) {
+                        specifications = {};
+                    }
+                }
+                
+                return `
+                    <div class="product-card ${product.requires_clearance ? 'restricted' : ''}">
+                        <div class="product-image-container">
+                            <img src="${product.image_url || 'https://cdn-icons-png.flaticon.com/512/3067/3067256.png'}" 
+                                 alt="${product.name}" 
+                                 class="product-image">
+                            <span class="product-status status-${product.status}">
+                                <i class="fas fa-box"></i> ${product.status.toUpperCase().replace('_', ' ')}
+                            </span>
+                            ${product.requires_clearance ? 
+                                '<div class="restricted-badge">RESTRICTED</div>' : ''}
+                        </div>
+                        
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">$${parseFloat(product.price).toFixed(2)}</div>
+                            
+                            <p class="product-desc">${product.description}</p>
+                            
+                            ${product.fabrication_progress && product.fabrication_progress < 100 ? `
+                                <div class="fabrication-progress">
+                                    <div class="progress-label">
+                                        <span>Fabrication Progress</span>
+                                        <span>${product.fabrication_progress}%</span>
+                                    </div>
+                                    <div class="progress-bar progress-${product.status}">
+                                        <div class="progress-fill" style="width: ${product.fabrication_progress}%"></div>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${features && features.length > 0 ? `
+                                <div class="product-features">
+                                    ${features.map(feat => 
+                                        `<span class="feature-tag">${feat}</span>`
+                                    ).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            <div class="product-actions">
+                                ${!canPurchase ? `
+                                    <button class="btn-buy" disabled>
+                                        <i class="fas fa-lock"></i> CLEARANCE REQUIRED
+                                    </button>
+                                ` : inCart ? `
+                                    <button class="btn-buy" disabled>
+                                        <i class="fas fa-check"></i> IN CART
+                                    </button>
+                                ` : product.status === 'out_of_stock' || product.stock === 0 ? `
+                                    <button class="btn-buy" disabled>
+                                        <i class="fas fa-ban"></i> OUT OF STOCK
+                                    </button>
+                                ` : `
+                                    <button class="btn-buy" onclick="addToCart('${product.id}')">
+                                        <i class="fas fa-cart-plus"></i> ADD TO CART
+                                    </button>
+                                `}
+                                
+                                <button class="btn-details" onclick="showProductDetails('${product.id}')">
+                                    <i class="fas fa-search"></i> VIEW DETAILS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterProducts(category) {
+            loadProducts(category);
+        }
+
+        // ============================================================================
+        // CART FUNCTIONS
+        // ============================================================================
+        async function loadCart() {
+            try {
+                const response = await apiRequest(API_CONFIG.ENDPOINTS.CART);
+                
+                if (response.success) {
+                    cart = response.cart || [];
+                    updateCartDisplay();
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+            }
+        }
+
+        async function addToCart(productId) {
+            try {
+                const encodedProductId = encodeURIComponent(productId);
+                const response = await apiRequest(
+                    `${API_CONFIG.ENDPOINTS.CART}?product_id=${encodedProductId}&quantity=1`,
+                    'POST'
+                );
+                
+                if (response.success) {
+                    showMessage('Added to cart', 'success');
+                    await loadCart();
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+            }
+        }
+
+        async function removeFromCart(productId) {
+            try {
+                const encodedProductId = encodeURIComponent(productId);
+                const response = await apiRequest(
+                    `${API_CONFIG.ENDPOINTS.CART}/${encodedProductId}`,
+                    'DELETE'
+                );
+                
+                if (response.success) {
+                    showMessage('Removed from cart', 'info');
+                    await loadCart();
+                }
+            } catch (error) {
+                console.error('Error removing from cart:', error);
+            }
+        }
+
+        function updateCartDisplay() {
+            // Update cart count
+            document.getElementById('cart-count').textContent = `(${cart.length})`;
+            
+            // Update cart section if visible
+            const cartContainer = document.getElementById('cart-container');
+            const cartActions = document.getElementById('cart-actions');
+            
+            if (!cartContainer) return;
+            
+            if (cart.length === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>YOUR CART IS EMPTY</h3>
+                        <p>Add some hardware to get started!</p>
+                    </div>
+                `;
+                cartActions.classList.add('hidden');
+                return;
+            }
+            
+            // Calculate total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Render cart items
+            cartContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image_url || 'https://cdn-icons-png.flaticon.com/512/3067/3067256.png'}" 
+                         alt="${item.name}" 
+                         class="cart-item-image">
+                    
+                    <div class="cart-item-info">
+                        <h4>${item.name}</h4>
+                        <p>${item.description ? item.description.substring(0, 100) + '...' : ''}</p>
+                        <div style="display: flex; gap: 10px; margin-top: 10px; align-items: center;">
+                            <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity - 1})" 
+                                    ${item.quantity <= 1 ? 'disabled' : ''} 
+                                    style="background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); width: 30px; height: 30px; border-radius: 4px; cursor: pointer;">
+                                -
+                            </button>
+                            <span style="font-family: var(--font-code); min-width: 30px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.product_id}', ${item.quantity + 1})" 
+                                    style="background: transparent; border: 1px solid var(--primary); color: var(--primary); width: 30px; height: 30px; border-radius: 4px; cursor: pointer;">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: right;">
+                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <button onclick="removeFromCart('${item.product_id}')" 
+                                style="background: transparent; border: none; color: var(--accent); margin-top: 10px; cursor: pointer; font-family: var(--font-code); font-size: 0.8rem;">
+                            <i class="fas fa-trash"></i> Remove
+                        </button>
+                    </div>
+                </div>
+            `).join('') + `
+                <div class="cart-total">
+                    TOTAL: $${total.toFixed(2)}
+                </div>
+            `;
+            
+            cartActions.classList.remove('hidden');
+        }
+
+        async function updateCartQuantity(productId, newQuantity) {
+            if (newQuantity < 1) {
+                await removeFromCart(productId);
+                return;
+            }
+            
+            try {
+                const encodedProductId = encodeURIComponent(productId);
+                const response = await apiRequest(
+                    `${API_CONFIG.ENDPOINTS.CART}/${encodedProductId}?quantity=${newQuantity}`,
+                    'PUT'
+                );
+                
+                if (response.success) {
+                    await loadCart();
+                }
+            } catch (error) {
+                console.error('Error updating cart quantity:', error);
+            }
+        }
+
+        // ============================================================================
+        // ORDER FUNCTIONS
+        // ============================================================================
+        function checkout() {
+            if (cart.length === 0) {
+                showMessage('Your cart is empty', 'error');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Update checkout summary
+            document.getElementById('checkout-summary').innerHTML = `
+                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h3 style="font-family: var(--font-code); color: var(--primary); margin-bottom: 15px;">
+                        ORDER SUMMARY
+                    </h3>
+                    
+                    ${cart.map(item => `
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                    
+                    <div style="display: flex; justify-content: space-between; padding: 15px 0; font-family: var(--font-display); font-size: 1.2rem;">
+                        <span>TOTAL:</span>
+                        <span style="color: var(--primary);">$${total.toFixed(2)}</span>
+                    </div>
+                </div>
+                
+                <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                    <i class="fas fa-info-circle"></i> Orders are processed within 24 hours. You will receive a confirmation email with shipping details.
+                </div>
+            `;
+            
+            // Reset form
+            document.getElementById('checkout-form').reset();
+            
+            openModal('checkout-modal');
+        }
+
+        async function processOrder(orderData) {
+            try {
+                const response = await apiRequest(
+                    API_CONFIG.ENDPOINTS.ORDERS,
+                    'POST',
+                    orderData
+                );
+                
+                if (response.success) {
+                    showMessage(`Order #${response.order_number} placed successfully!`, 'success');
+                    closeModal('checkout-modal');
+                    
+                    // Clear cart and refresh
+                    cart = [];
+                    await loadCart();
+                    
+                    // Show history section
+                    showSection('history');
+                    
+                    return true;
+                }
+            } catch (error) {
+                showMessage('Order failed: ' + error.message, 'error');
+                return false;
+            }
+        }
+
+        async function loadOrderHistory() {
+            try {
+                const response = await apiRequest(API_CONFIG.ENDPOINTS.ORDERS);
+                
+                const historyContainer = document.getElementById('history-container');
+                if (!historyContainer) return;
+                
+                if (!response.success || !response.orders || response.orders.length === 0) {
+                    historyContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <h3>NO PURCHASE HISTORY</h3>
+                            <p>Your completed orders will appear here.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                historyContainer.innerHTML = response.orders.map(order => `
+                    <div class="history-item">
+                        <div style="font-family: var(--font-code); color: var(--text-muted); grid-column: 1/-1; margin-bottom: 10px; display: flex; justify-content: space-between;">
+                            <span>Order #${order.order_number}</span>
+                            <span>${new Date(order.created_at).toLocaleDateString()}</span>
+                        </div>
+                        
+                        ${order.items ? order.items.map(item => `
+                            <img src="${item.image_url || 'https://cdn-icons-png.flaticon.com/512/3067/3067256.png'}" 
+                                 alt="${item.name}" 
+                                 class="history-item-image">
+                            
+                            <div class="history-item-info">
+                                <h4>${item.name}</h4>
+                                <p>Quantity: ${item.quantity} Ã— $${parseFloat(item.price).toFixed(2)}</p>
+                                <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
+                                    Status: <span style="color: ${getStatusColor(order.status)}">${order.status.toUpperCase()}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-item-price">
+                                $${(item.price * item.quantity).toFixed(2)}
+                            </div>
+                        `).join('') : ''}
+                        
+                        <div style="grid-column: 1/-1; text-align: right; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+                            <div style="font-family: var(--font-display); font-size: 1.2rem; color: var(--primary);">
+                                Total: $${parseFloat(order.total).toFixed(2)}
+                            </div>
+                            ${order.estimated_delivery ? `
+                                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">
+                                    Est. Delivery: ${new Date(order.estimated_delivery).toLocaleDateString()}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading order history:', error);
+            }
+        }
+
+        function getStatusColor(status) {
+            const colorMap = {
+                'processing': '#ffaa00',
+                'shipped': '#00aaff',
+                'delivered': '#00ff9d',
+                'cancelled': '#ff0055'
+            };
+            
+            return colorMap[status] || '#ffffff';
+        }
+
+        // ============================================================================
+        // PRODUCT DETAILS MODAL
+        // ============================================================================
+        async function showProductDetails(productId) {
+            try {
+                const response = await apiRequest(`${API_CONFIG.ENDPOINTS.PRODUCTS}/${productId}`);
+                
+                if (response.success) {
+                    const product = response.product;
+                    const modalContent = document.getElementById('product-modal-content');
+                    
+                    // Parse features and specifications
+                    let features = product.features;
+                    let specifications = product.specifications;
+                    
+                    if (typeof product.features === 'string') {
+                        try {
+                            features = JSON.parse(product.features);
+                        } catch (e) {
+                            features = [];
+                        }
+                    }
+                    
+                    if (typeof product.specifications === 'string') {
+                        try {
+                            specifications = JSON.parse(product.specifications);
+                        } catch (e) {
+                            specifications = {};
+                        }
+                    }
+                    
+                    modalContent.innerHTML = `
+                        <h2 style="font-family: var(--font-display); color: var(--primary); margin-bottom: 1rem;">
+                            ${product.name}
+                        </h2>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                            <div>
+                                <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; margin-bottom: 1rem;">
+                                    <img src="${product.image_url || 'https://cdn-icons-png.flaticon.com/512/3067/3067256.png'}" 
+                                         alt="${product.name}" 
+                                         style="width: 100%; max-height: 200px; object-fit: contain;">
+                                </div>
+                                
+                                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <span style="color: var(--text-muted);">Price:</span>
+                                        <span style="font-family: var(--font-code); font-size: 1.5rem; color: var(--primary);">
+                                            $${parseFloat(product.price).toFixed(2)}
+                                        </span>
+                                    </div>
+                                    
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                        <span style="color: var(--text-muted);">Status:</span>
+                                        <span class="product-status status-${product.status}" style="margin: 0;">
+                                            <i class="fas fa-box"></i> ${product.status.toUpperCase().replace('_', ' ')}
+                                        </span>
+                                    </div>
+                                    
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <span style="color: var(--text-muted);">Category:</span>
+                                        <span style="color: var(--secondary); text-transform: uppercase;">
+                                            ${product.category}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 style="font-family: var(--font-code); color: var(--primary); margin-bottom: 1rem;">
+                                    <i class="fas fa-info-circle"></i> SPECIFICATIONS
+                                </h3>
+                                
+                                <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
+                                    ${specifications && Object.entries(specifications).length > 0 ? 
+                                        Object.entries(specifications).map(([key, value]) => `
+                                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                                <span style="color: var(--text-muted);">${key}:</span>
+                                                <span style="color: #fff; font-family: var(--font-code);">${value}</span>
+                                            </div>
+                                        `).join('') : 
+                                        '<div style="color: var(--text-muted);">No specifications available.</div>'
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 style="font-family: var(--font-code); color: var(--primary); margin-bottom: 1rem;">
+                            <i class="fas fa-file-alt"></i> DESCRIPTION
+                        </h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem; line-height: 1.6;">
+                            ${product.description}
+                        </p>
+                        
+                        ${features && features.length > 0 ? `
+                            <h3 style="font-family: var(--font-code); color: var(--primary); margin-bottom: 1rem;">
+                                <i class="fas fa-star"></i> FEATURES
+                            </h3>
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 2rem;">
+                                ${features.map(feat => `
+                                    <span style="background: rgba(0,255,157,0.1); color: var(--primary); padding: 8px 15px; border-radius: 4px; font-family: var(--font-code); font-size: 0.9rem;">
+                                        ${feat}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 2rem;">
+                            ${!product.requires_clearance || (currentUser && currentUser.clearance_level >= 4) ? `
+                                ${cart.some(item => item.product_id === product.id) ? `
+                                    <button class="cyber-btn" disabled style="flex: 1;">
+                                        <i class="fas fa-check"></i> ALREADY IN CART
+                                    </button>
+                                ` : (product.status === 'out_of_stock' || product.stock === 0) ? `
+                                    <button class="cyber-btn" disabled style="flex: 1;">
+                                        <i class="fas fa-ban"></i> OUT OF STOCK
+                                    </button>
+                                ` : `
+                                    <button class="cyber-btn" onclick="addToCart('${product.id}'); closeModal('product-modal');" style="flex: 1;">
+                                        <i class="fas fa-cart-plus"></i> ADD TO CART
+                                    </button>
+                                `}
+                            ` : `
+                                <button class="cyber-btn" disabled style="flex: 1;">
+                                    <i class="fas fa-lock"></i> CLEARANCE REQUIRED
+                                </button>
+                            `}
+                            
+                            <button class="cyber-btn secondary" onclick="closeModal('product-modal')" style="flex: 1;">
+                                <i class="fas fa-times"></i> CLOSE
+                            </button>
+                        </div>
+                    `;
+                    
+                    openModal('product-modal');
+                }
+            } catch (error) {
+                console.error('Error loading product details:', error);
+            }
+        }
+
+        // ============================================================================
+        // UI HELPER FUNCTIONS
+        // ============================================================================
+        function showSection(sectionName) {
+            // Hide all sections
+            ['products', 'cart', 'history', 'custom', 'admin'].forEach(section => {
+                const element = document.getElementById(`${section}-section`);
+                if (element) element.classList.add('hidden');
+            });
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.store-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Show selected section
+            const targetSection = document.getElementById(`${sectionName}-section`);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+            }
+            
+            // Add active class to clicked nav item
+            const targetNav = document.querySelector(`.store-nav-item[onclick*="${sectionName}"]`);
+            if (targetNav) {
+                targetNav.classList.add('active');
+            }
+            
+            // Load data for section
+            switch(sectionName) {
+                case 'cart':
+                    loadCart();
+                    break;
+                case 'history':
+                    loadOrderHistory();
+                    break;
+                case 'products':
+                    loadProducts();
+                    break;
+                case 'custom':
+                    break;
+                case 'admin':
+                    loadAdminProducts();
+                    break;
+            }
+        }
+
+        function openAdminPanel() {
+            window.location.href = 'admin.html';
+        }
+
+        function updateUserDisplay() {
+            if (!currentUser) return;
+            
+            const displayName = currentUser.name || currentUser.username;
+            document.getElementById('user-display-name').textContent = displayName;
+            
+            if (currentUser.balance !== undefined) {
+                document.getElementById('user-balance').textContent = parseFloat(currentUser.balance).toFixed(2);
+            }
+
+            const adminNav = document.getElementById('admin-nav-item');
+            if (adminNav) {
+                if (isAdmin()) {
+                    adminNav.classList.remove('hidden');
+                } else {
+                    adminNav.classList.add('hidden');
+                }
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('login-card').classList.remove('hidden');
+            document.getElementById('register-card').classList.add('hidden');
+            document.getElementById('login-form').reset();
+        }
+
+        function showRegister() {
+            document.getElementById('login-card').classList.add('hidden');
+            document.getElementById('register-card').classList.remove('hidden');
+            document.getElementById('register-form').reset();
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showMessage(text, type = 'info') {
+            // Remove existing messages
+            document.querySelectorAll('.message').forEach(msg => msg.remove());
+            
+            // Create new message
+            const message = document.createElement('div');
+            message.className = `message ${type}`;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : 
+                        type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+            
+            message.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+            
+            document.body.appendChild(message);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                message.style.animation = 'slideDown 0.3s ease reverse';
+                setTimeout(() => message.remove(), 300);
+            }, 3000);
+        }
+
+        // ============================================================================
+        // EVENT LISTENERS
+        // ============================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if user is already authenticated
+            const isAuthenticated = checkAuth();
+            
+            if (!isAuthenticated) {
+                // Login form
+                const loginForm = document.getElementById('login-form');
+                if (loginForm) {
+                    loginForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        
+                        const identifier = document.getElementById('login-identifier').value;
+                        const password = document.getElementById('login-password').value;
+                        const loginBtn = document.getElementById('login-btn');
+                        
+                        loginBtn.disabled = true;
+                        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> AUTHENTICATING...';
+                        
+                        const success = await login(identifier, password);
+                        
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-terminal"></i> ACCESS SYSTEM';
+                        
+                        if (!success) {
+                            document.getElementById('login-password').value = '';
+                        }
+                    });
+                }
+                
+                // Register form
+                const registerForm = document.getElementById('register-form');
+                if (registerForm) {
+                    registerForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        
+                        const userData = {
+                            name: document.getElementById('register-name').value,
+                            email: document.getElementById('register-email').value,
+                            username: document.getElementById('register-username').value,
+                            password: document.getElementById('register-password').value,
+                            confirm_password: document.getElementById('register-confirm').value,
+                            access_code: document.getElementById('register-access-code').value
+                        };
+                        
+                        // Validate passwords match
+                        if (userData.password !== userData.confirm_password) {
+                            showMessage('Passwords do not match', 'error');
+                            return;
+                        }
+                        
+                        const registerBtn = document.getElementById('register-btn');
+                        registerBtn.disabled = true;
+                        registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> CREATING ACCOUNT...';
+                        
+                        const success = await register(userData);
+                        
+                        registerBtn.disabled = false;
+                        registerBtn.innerHTML = '<i class="fas fa-user-check"></i> CREATE ACCOUNT';
+                    });
+                }
+            }
+            
+            // Checkout form
+            const checkoutForm = document.getElementById('checkout-form');
+            if (checkoutForm) {
+                checkoutForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const orderData = {
+                        shipping_address: document.getElementById('shipping-address').value,
+                        contact_number: document.getElementById('contact-number').value,
+                        payment_method: document.getElementById('payment-method').value,
+                        notes: document.getElementById('checkout-notes').value
+                    };
+                    
+                    const checkoutBtn = document.getElementById('checkout-btn');
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+                    
+                    const success = await processOrder(orderData);
+                    
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = '<i class="fas fa-check-circle"></i> CONFIRM ORDER';
+                });
+            }
+
+            // Custom Request Form Handler
+            const customForm = document.getElementById('custom-request-form');
+            if (customForm) {
+                customForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const btn = document.getElementById('custom-submit-btn');
+                    const originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENCRYPTING & TRANSMITTING...';
+
+                    const customRequestData = {
+                        title: document.getElementById('custom-title').value,
+                        category: document.getElementById('custom-category').value,
+                        budget: document.getElementById('custom-budget').value,
+                        timeline_weeks: document.getElementById('custom-timeline').value,
+                        specs: document.getElementById('custom-specs').value,
+                        links: document.getElementById('custom-links').value
+                    };
+
+                    try {
+                        const response = await apiRequest(
+                            API_CONFIG.ENDPOINTS.CUSTOM_REQUEST,
+                            'POST',
+                            customRequestData
+                        );
+
+                        if (response.success) {
+                            showMessage(
+                                `Request received! Ref: ${response.request_id}. We will contact you within 48 hours.`,
+                                'success'
+                            );
+                            customForm.reset();
+                        }
+                    } catch (error) {
+                        showMessage('Transmission Failed: ' + error.message, 'error');
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                    }
+                });
+            }
+
+            // Admin product form
+            const adminForm = document.getElementById('admin-product-form');
+            const adminReset = document.getElementById('admin-reset-btn');
+            if (adminForm) {
+                adminForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!isAdmin()) {
+                        showMessage('Admin clearance required', 'error');
+                        return;
+                    }
+
+                    const btn = document.getElementById('admin-save-btn');
+                    const original = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class=\"fas fa-spinner fa-spin\"></i> SAVING...';
+
+                    const productId = document.getElementById('admin-product-id').value.trim();
+                    const payload = {
+                        id: productId || null,
+                        name: document.getElementById('admin-name').value,
+                        category: document.getElementById('admin-category').value,
+                        price: parseFloat(document.getElementById('admin-price').value || 0),
+                        stock: parseInt(document.getElementById('admin-stock').value || '0'),
+                        status: document.getElementById('admin-status').value,
+                        fabrication_progress: parseInt(document.getElementById('admin-progress').value || '0'),
+                        requires_clearance: document.getElementById('admin-clearance').value === 'true',
+                        image_url: document.getElementById('admin-image').value,
+                        description: document.getElementById('admin-description').value,
+                        features: document.getElementById('admin-features').value.split('\\n').filter(Boolean),
+                        specifications: (() => {
+                            const raw = document.getElementById('admin-specs').value.trim();
+                            if (!raw) return {};
+                            try {
+                                return JSON.parse(raw);
+                            } catch {
+                                showMessage('Specs must be valid JSON', 'error');
+                                throw new Error('Invalid specs JSON');
+                            }
+                        })()
+                    };
+
+                    try {
+                        const endpoint = productId ? `${API_CONFIG.ENDPOINTS.ADMIN_PRODUCTS}/${productId}` : API_CONFIG.ENDPOINTS.ADMIN_PRODUCTS;
+                        const method = productId ? 'PUT' : 'POST';
+                        const response = await apiRequest(endpoint, method, payload);
+                        if (response.success) {
+                            showMessage(response.message, 'success');
+                            resetAdminForm();
+                            await loadAdminProducts();
+                            await loadProducts();
+                        }
+                    } catch (error) {
+                        if (error.message !== 'Invalid specs JSON') {
+                            showMessage('Save failed: ' + error.message, 'error');
+                        }
+                    } finally {
+                        btn.disabled = false;
+                        btn.innerHTML = original;
+                    }
+                });
+            }
+
+            if (adminReset) {
+                adminReset.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    resetAdminForm();
+                });
+            }
+            
+            // Close modals on ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal('product-modal');
+                    closeModal('checkout-modal');
+                }
+            });
+            
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        (async () => {
+            const qs = new URLSearchParams(window.location.search);
+            const apiOverride = qs.get("api") || localStorage.getItem("vikash_api_base");
+            const defaultApi = `${window.location.protocol}//${window.location.hostname || "localhost"}:8016`;
+            const api = (apiOverride || defaultApi).replace(/\/$/, "");
+
+            try {
+                const res = await fetch(`${api}/api/public/runtime`);
+                if (!res.ok) return;
+
+                const data = await res.json();
+                const store = (data.settings || {}).store || {};
+                if (store.enabled === false) {
+                    const blocker = document.createElement("div");
+                    blocker.style.position = "fixed";
+                    blocker.style.inset = "0";
+                    blocker.style.zIndex = "99999";
+                    blocker.style.background = "rgba(3, 6, 10, 0.97)";
+                    blocker.style.display = "flex";
+                    blocker.style.alignItems = "center";
+                    blocker.style.justifyContent = "center";
+                    blocker.style.padding = "24px";
+                    blocker.innerHTML = `
+                        <div style="max-width:700px;border:1px solid #00ff9d;padding:22px;background:#0c1118;color:#fff;font-family:JetBrains Mono, monospace;">
+                            <h2 style="margin:0 0 12px 0;color:#00ff9d;">STORE MAINTENANCE</h2>
+                            <p style="margin:0;color:#e4e9f2;line-height:1.6;">
+                                ${store.maintenance_message || "Store access is temporarily disabled by admin."}
+                            </p>
+                            <div style="margin-top:14px;">
+                                <a href="index.html" style="color:#00ff9d;">Return to Main Site</a>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(blocker);
+                }
+            } catch (_err) {
+                // Ignore runtime check errors to preserve offline usability.
+            }
+        })();
+    </script>
+</body>
+</html>
+
+
