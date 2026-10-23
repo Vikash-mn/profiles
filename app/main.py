@@ -281,21 +281,51 @@ def create_app() -> FastAPI:
 app = create_app()
 
 
+
 def main():
+    import os
+
+    is_render = bool(os.environ.get("RENDER"))
+    
+    default_host = "0.0.0.0" if is_render else Config.HOST
+    default_port = int(os.environ.get("PORT", str(Config.PORT)))
+    default_reload = False if is_render else Config.RELOAD
+    default_workers = 1 if is_render else Config.WORKERS
+
     parser = argparse.ArgumentParser(description=f"{Config.APP_NAME} Server")
-    parser.add_argument("--host", type=str, default=Config.HOST, help="Host to bind to")
-    parser.add_argument("--port", type=int, default=Config.PORT, help="Port to bind to")
+
     parser.add_argument(
-        "--reload", action="store_true", default=Config.RELOAD, help="Enable auto-reload"
+        "--host",
+        type=str,
+        default=default_host,
+        help="Host to bind to",
     )
     parser.add_argument(
-        "--workers", type=int, default=Config.WORKERS, help="Number of workers"
+        "--port",
+        type=int,
+        default=default_port,
+        help="Port to bind to",
+    )
+    parser.add_argument(
+        "--reload",
+        action="store_true",
+        default=default_reload,
+        help="Enable auto-reload",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=default_workers,
+        help="Number of workers",
     )
 
     args = parser.parse_args()
 
+    # Apply the resolved server configuration.
     Config.HOST = args.host
     Config.PORT = args.port
+    Config.RELOAD = args.reload
+    Config.WORKERS = args.workers
 
     logging.getLogger().setLevel(
         logging.WARNING if IS_PRODUCTION else logging.INFO
