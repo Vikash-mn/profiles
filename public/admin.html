@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Vikash | Admin</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/cyber-heart.css">
+    <script defer src="js/cyber-heart.js"></script>
+    <script defer src="js/button-effects.js"></script>
+</head>
+<body data-cyber-page="admin">
+    <div id="auth-screen">
+        <div class="auth-box">
+            <div class="logo center">// ADMIN_ACCESS_REQ</div>
+            <div id="error-msg" class="msg msg-error"></div>
+            <div id="backend-msg" class="msg msg-warn"></div>
+            <input type="text" id="admin-user" placeholder="Username or Email">
+            <input type="password" id="admin-pass" placeholder="Password">
+            <button class="btn btn-primary full" id="login-btn">AUTHENTICATE</button>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <div class="logo"><i class="fas fa-shield-alt"></i> VIKASH_DB</div>
+        <div class="nav-item active" data-tab="dashboard"><i class="fas fa-chart-line"></i> Dashboard</div>
+        <div class="nav-item" data-tab="products"><i class="fas fa-box"></i> Products</div>
+        <div class="nav-item" data-tab="orders"><i class="fas fa-shopping-cart"></i> Orders</div>
+        <div class="nav-item" data-tab="users"><i class="fas fa-users"></i> Users</div>
+        <div class="nav-item" data-tab="controls"><i class="fas fa-sliders-h"></i> Site Control</div>
+        <div class="nav-item hidden" id="admins-tab-link" data-tab="admins"><i class="fas fa-user-shield"></i> Admin Accounts</div>
+        <div class="sidebar-footer">
+            <div class="clearance-line">Clearance: <span id="admin-clearance">Unknown</span></div>
+            <div class="nav-item logout-item" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <div id="view-dashboard" class="view">
+            <div class="header">
+                <div class="title">
+                    <h2>SYSTEM OVERVIEW</h2>
+                    <div class="subtitle">Runtime + Database health snapshot</div>
+                </div>
+                <button class="btn btn-primary" id="refresh-dashboard-btn"><i class="fas fa-sync"></i> REFRESH</button>
+            </div>
+
+            <div class="stats" id="stats-container"></div>
+
+            <h3>RECENT ORDERS</h3>
+            <div class="table-container">
+                <table id="recent-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-products" class="view hidden">
+            <div class="header">
+                <div class="title"><h2>INVENTORY MANAGEMENT</h2></div>
+                <button class="btn btn-primary" id="add-product-btn"><i class="fas fa-plus"></i> NEW PRODUCT</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-orders" class="view hidden">
+            <div class="header">
+                <div class="title"><h2>ORDER DATABASE</h2></div>
+                <button class="btn btn-primary" id="refresh-orders-btn"><i class="fas fa-sync"></i> REFRESH</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>User</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-users" class="view hidden">
+            <div class="header">
+                <div class="title"><h2>USER DATABASE</h2></div>
+                <button class="btn btn-primary" id="refresh-users-btn"><i class="fas fa-sync"></i> REFRESH</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>Clearance</th>
+                            <th>Status</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="view-controls" class="view hidden">
+            <div class="header">
+                <div class="title"><h2>WEBPAGE / STORE CONTROLS</h2></div>
+                <button class="btn btn-primary" id="refresh-controls-btn"><i class="fas fa-sync"></i> RELOAD</button>
+            </div>
+
+            <div id="controls-status" class="inline-status"></div>
+
+            <form id="controls-form" class="control-grid">
+                <section class="control-card">
+                    <h3><i class="fas fa-globe"></i> Webpage Control</h3>
+                    <label class="toggle-line">
+                        <input type="checkbox" id="webpage-enabled">
+                        <span>Webpage Enabled</span>
+                    </label>
+                    <label class="field-label" for="webpage-message">Maintenance Message</label>
+                    <textarea id="webpage-message" rows="3"></textarea>
+                </section>
+
+                <section class="control-card">
+                    <h3><i class="fas fa-store"></i> Store Control</h3>
+                    <label class="toggle-line">
+                        <input type="checkbox" id="store-enabled">
+                        <span>Store Enabled</span>
+                    </label>
+                    <label class="toggle-line">
+                        <input type="checkbox" id="store-checkout-enabled">
+                        <span>Allow Checkout</span>
+                    </label>
+                    <label class="toggle-line">
+                        <input type="checkbox" id="store-custom-enabled">
+                        <span>Allow Custom Requests</span>
+                    </label>
+                    <label class="field-label" for="store-message">Maintenance Message</label>
+                    <textarea id="store-message" rows="3"></textarea>
+                </section>
+
+                <div class="control-actions">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> SAVE CONTROLS</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="view-admins" class="view hidden">
+            <div class="header">
+                <div class="title">
+                    <h2>ADMIN ACCOUNT MANAGEMENT</h2>
+                    <div class="subtitle">Super admin only: add/update/delete admin users</div>
+                </div>
+                <button class="btn btn-primary" id="refresh-admins-btn"><i class="fas fa-sync"></i> REFRESH</button>
+            </div>
+
+            <div id="admins-status" class="inline-status"></div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Clearance</th>
+                            <th>Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admins-table"></tbody>
+                </table>
+            </div>
+
+            <div class="admin-form-wrap">
+                <h3>CREATE NEW ADMIN</h3>
+                <form id="create-admin-form" class="admin-form-grid">
+                    <input type="text" id="new-admin-name" placeholder="Full name" required>
+                    <input type="text" id="new-admin-username" placeholder="Username" required>
+                    <input type="email" id="new-admin-email" placeholder="Email" required>
+                    <input type="password" id="new-admin-password" placeholder="Password" required>
+                    <select id="new-admin-clearance">
+                        <option value="5">Admin (Level 5)</option>
+                        <option value="10">Super Admin (Level 10)</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i> ADD ADMIN</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-legal-footer" style="display:flex;justify-content:flex-end;gap:1rem;flex-wrap:wrap;padding:1rem 2rem;border-top:1px solid rgba(127,127,127,.35);font-size:.85rem;">
+        <nav aria-label="Legal pages" style="display:flex;gap:1rem;flex-wrap:wrap;"><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms and conditions</a></nav>
+    </footer>
+    <script src="js/admin_panel.js?v=VA.1"></script>
+</body>
+</html>
