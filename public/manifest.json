@@ -1,0 +1,16 @@
+{
+  "name": "Phantom Signal — Vikash",
+  "short_name": "Phantom",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#07090b",
+  "theme_color": "#07090b",
+  "description": "Vikash's dark cyber portfolio, project atlas, and storefront.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

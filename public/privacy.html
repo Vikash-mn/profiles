@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="How Vikash's portfolio and hardware storefront handle account, order, and contact information.">
+    <meta name="theme-color" content="#07090b">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Privacy policy | Vikash">
+    <meta property="og:description" content="How this portfolio and its storefront handle information.">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/cyber-heart.css">
+    <script defer src="js/cyber-heart.js"></script>
+    <script defer src="js/button-effects.js"></script>
+    <title>Privacy policy | Vikash</title>
+</head>
+<body data-cyber-page="legal">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+        <header class="site-header">
+            <a class="brand" href="index.html" aria-label="Vikash, portfolio home">
+                <span class="brand-mark" aria-hidden="true">V</span>
+                <span>Vikash</span>
+            </a>
+            <nav class="site-nav" aria-label="Page navigation">
+                <a href="index.html">Portfolio</a>
+                <a href="terms.html">Terms</a>
+            </nav>
+        </header>
+
+        <main id="main" class="legal-main">
+            <p class="eyebrow">POLICIES / PRIVACY</p>
+            <h1>Privacy policy</h1>
+            <p class="legal-updated">Last updated <time datetime="2026-10-13">13 October 2026</time></p>
+            <p class="legal-intro">This policy describes the information handling visible in the portfolio and storefront code. The storefront needs a configured API and database. A deployment can add services or logging that are not defined in this repository.</p>
+
+            <div class="legal-content">
+                <section>
+                    <h2>Who operates the site</h2>
+                    <p>The site identifies its operator as Vikash. The repository does not identify a registered business name, postal address, hosting provider, database host, or a specific privacy-law jurisdiction. You can contact the operator at <a href="mailto:vikash.e404@gmail.com">vikash.e404@gmail.com</a>.</p>
+                </section>
+
+                <section>
+                    <h2>Information you provide</h2>
+                    <ul>
+                        <li><strong>Contact message:</strong> the portfolio form prepares an email in your email application. The portfolio does not submit that form to its API. Your email application and email provider handle the message after you choose to send it.</li>
+                        <li><strong>Store account:</strong> registration asks for a name, email address, username, password, and optional access code. The API hashes account passwords before writing them to the user database. Login sends the identifier and password to the API for authentication.</li>
+                        <li><strong>Orders:</strong> the order API accepts shipping and optional billing addresses, a contact number, optional email, selected payment method, notes, and the products and quantities in the order.</li>
+                        <li><strong>Custom requests:</strong> the storefront form asks for a title, category, specifications, and optional budget, timeline, and reference links. It is submitted to the configured API.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>How information is used</h2>
+                    <p>The API uses account information to create and authenticate accounts, and order or request details to operate the corresponding store workflows. If outgoing email is enabled by the operator, the application can send account and order messages through a configured SMTP service. The repository does not identify which email provider is used in a live deployment.</p>
+                    <p>The application records registration, sign-in, and sign-out events in its system log. These records can include an account identifier, an email address or login name, the request IP address, and browser user-agent. A custom request is also written to that log with the signed-in account identifier, the submitted project details, the request IP address, and browser user-agent. The repository does not specify how long these records are kept. Hosting and network logs depend on the deployment provider.</p>
+                </section>
+
+                <section>
+                    <h2>Browser storage and outside services</h2>
+                    <p>The storefront stores an access token, account profile, and cart in your browser's local storage. Signing out removes those values. Local storage persists between visits until it is cleared or the application removes it. The admin page also stores its access token in local storage.</p>
+                    <p>The admin page loads fonts from Google Fonts and icons from cdnjs. Store catalog entries can load images from external product or image hosts, including vendor sites, Wikimedia, Unsplash, and a Flaticon fallback. When a browser loads these assets, it connects to the relevant provider and sends ordinary request information such as its IP address. The providers' own policies apply to their services.</p>
+                    <p>The inspected repository contains no analytics integration or first-party code that writes cookies. This does not describe behavior added by a hosting provider, browser, or third-party service.</p>
+                </section>
+
+                <section>
+                    <h2>Storage, retention, and security</h2>
+                    <p>Account, order, custom-request, and application-log data are handled by the configured API and MySQL database. The repository does not set a retention period or automatic deletion schedule. The operator's database, log, and backup practices determine how long records remain.</p>
+                    <p>The account service hashes passwords before storing them. Browser access tokens are stored in local storage, which can be read by scripts running on the same site. Sign out when using a shared device. These measures do not guarantee that the application or a deployment is fully secure.</p>
+                </section>
+
+                <section>
+                    <h2>Your choices and requests</h2>
+                    <p>You can ask the operator to access, correct, or delete information associated with you, or to close a store account, by emailing <a href="mailto:vikash.e404@gmail.com">vikash.e404@gmail.com</a>. Some order or security records may need to be retained where required to operate the service or comply with applicable law. Rights and response requirements depend on your location and the deployed service.</p>
+                </section>
+
+                <section>
+                    <h2>Payments</h2>
+                    <p>The storefront includes a payment-method selection, but the repository does not identify a payment processor. Do not enter card details or payment credentials into these pages. Confirm payment instructions directly with the operator before sending money.</p>
+                </section>
+
+                <section>
+                    <h2>Changes and contact</h2>
+                    <p>This page may change when the site or its data practices change. For privacy questions or requests, email <a href="mailto:vikash.e404@gmail.com">vikash.e404@gmail.com</a>.</p>
+                </section>
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <span>Vikash</span>
+            <nav aria-label="Legal pages"><a href="privacy.html" aria-current="page">Privacy policy</a><a href="terms.html">Terms and conditions</a></nav>
+        </footer>
+    </div>
+</body>
+</html>

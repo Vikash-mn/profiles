@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: vikash_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${VIKASH_MYSQL_ROOT_PASSWORD:?Set VIKASH_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${VIKASH_DB_NAME:-vikash_system}
+      MYSQL_USER: ${VIKASH_DB_USER:-vikash_user}
+      MYSQL_PASSWORD: ${VIKASH_DB_PASSWORD:?Set VIKASH_DB_PASSWORD}
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/setup_mysql.sql:/docker-entrypoint-initdb.d/setup.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: vikash_redis
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: .
+    container_name: vikash_backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      VIKASH_HOST: 0.0.0.0
+      VIKASH_PORT: 8000
+      VIKASH_ENV: ${VIKASH_ENV:-development}
+      VIKASH_ALLOWED_HOSTS: ${VIKASH_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      VIKASH_DB_HOST: mysql
+      VIKASH_DB_PORT: 3306
+      VIKASH_DB_USER: ${VIKASH_DB_USER:-vikash_user}
+      VIKASH_DB_PASSWORD: ${VIKASH_DB_PASSWORD:?Set VIKASH_DB_PASSWORD}
+      VIKASH_DB_NAME: ${VIKASH_DB_NAME:-vikash_system}
+      VIKASH_REDIS_HOST: redis
+      VIKASH_REDIS_PORT: 6379
+      VIKASH_SECRET_KEY: ${VIKASH_SECRET_KEY:?Set VIKASH_SECRET_KEY}
+      VIKASH_PUBLIC_URL: ${VIKASH_PUBLIC_URL:-}
+      VIKASH_SMTP_FROM_EMAIL: ${VIKASH_SMTP_FROM_EMAIL:-}
+      VIKASH_SMTP_FROM_NAME: ${VIKASH_SMTP_FROM_NAME:-Vikash}
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  redis_data:
